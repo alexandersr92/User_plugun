@@ -1,0 +1,15 @@
+{
+    "name": "ingal/users",
+    "autoload": {
+        "psr-4": {
+            "Ingal\\Users\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexander Sanchez",
+            "email": "ing.alexandersanchez@gmail.com"
+        }
+    ],
+    "require": {}
+}

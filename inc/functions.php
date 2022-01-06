@@ -7,9 +7,9 @@ global $wpdb;
 
 
 //
-add_action('admin_menu', 'kevro_menu');
+add_action('admin_menu', 'users_menu');
 
-function kevro_menu()
+function users_menu()
 {
     $current_user = new WP_User(get_current_user_id());
     global $current_user;
@@ -27,3 +27,31 @@ function kevro_menu()
     // }
 
 }
+
+add_action('init', function(){
+
+    add_rewrite_rule( 'users', 'index.php?users=table', 'top' );
+    
+});
+
+add_filter( 'query_vars', function( $query_vars ) {
+    $query_vars[] = 'users';
+    return $query_vars;
+} );
+
+
+add_action( 'template_include', function( $template ) {
+
+    if ( get_query_var( 'users' ) == false || get_query_var( 'users' ) == '' ) {
+        return $template;
+    } 
+    return  substr( plugin_dir_path(__FILE__), 0, -4). '/public/index.php';
+} );
+
+
+
+
+
+
+
+ 

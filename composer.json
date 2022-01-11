@@ -11,5 +11,7 @@
             "email": "ing.alexandersanchez@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "phpfastcache/phpfastcache": "^9.0"
+    }
 }

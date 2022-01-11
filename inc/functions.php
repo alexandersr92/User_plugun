@@ -48,10 +48,37 @@ add_action( 'template_include', function( $template ) {
     return  substr( plugin_dir_path(__FILE__), 0, -4). '/public/index.php';
 } );
 
+add_action('wp_head', 'myplugin_ajaxurl');
 
+function myplugin_ajaxurl() {
 
+   echo '<script type="text/javascript">
+           var ajaxurl = "' . admin_url('admin-ajax.php') . '";
+         </script>';
+}
 
+function ajax_url()
+{
 
+    // The wp_localize_script allows us to output the ajax_url path for our script to use. foundation
+    wp_localize_script(
+        'custom',
+        'ajaxurl',
+        array(
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('ajax-nonce')
+        )
+    );
+}
+add_action('wp_enqueue_scripts', 'ajax_url');
 
+add_action( 'wp_ajax__getSingleUser', 'getSingleUser' );
+add_action( 'wp_ajax_nopriv_getSingleUser', 'getSingleUser' );
 
- 
+function getSingleUser() {
+    $id = $_REQUEST['userID'];
+    include_once plugin_dir_path(__DIR__) . "src/view/single.php";
+
+    wp_die();
+}
+

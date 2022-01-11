@@ -5,7 +5,6 @@
 
 function custom_enqueue() {
 
-
    
 	wp_enqueue_style( 'custom',  substr( plugin_dir_url(__FILE__), 0, -4).'/assets/css/custom.css' , false );
 
@@ -17,6 +16,7 @@ function custom_enqueue() {
 	wp_enqueue_script('jquery');
 
 	wp_enqueue_script( 'app',  substr( plugin_dir_url(__FILE__), 0, -4).  '/assets/js/app.js', array(), 1,  true  ); 
+
 
 	
 

@@ -13,7 +13,7 @@
  */
 
 
+include_once plugin_dir_path(__FILE__) . 'inc/functions.php';
 include_once plugin_dir_path(__FILE__) . 'inc/enqueue.php';
 
-include_once plugin_dir_path(__FILE__) . 'inc/functions.php';
 

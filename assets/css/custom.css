@@ -1,0 +1,59 @@
+
+.dark-theme.single{
+    background: #212529
+}
+
+.dark-theme.single .cols p{
+    color: rgb(219, 219, 219);
+}
+.dark-theme.single .cols p a{
+    color: rgb(156, 202, 233);
+}
+
+.dark-theme.single .cols p span{
+    color: rgb(236, 236, 236);
+    font-weight: bold;
+}
+
+.light-theme.single{
+    background: #fff;
+}
+
+.light-theme.single .cols p{
+    color: rgb(48, 48, 48);
+}
+.light-theme.single .cols p a{
+    color: rgb(3, 110, 182);
+}
+
+.light-theme.single .cols p span{
+    color: rgb(29, 29, 29);
+    font-weight: bold;
+}
+
+.single{
+
+    padding: 20px 0px;
+   /*  border-radius: 20px; */
+    box-shadow: 6px 6px 24px rgb(0 0 0 / 30%);
+    width: 100%;
+    margin: 20px auto!important;
+}
+.single .cols{
+    border-left: 1px solid #dadada;
+}
+.single .cols:nth-child(1){
+    border-left:none;
+}
+
+
+.single .cols p span{
+
+    font-weight: bold;
+}
+
+.table-dark a{
+    color: rgb(156, 202, 233);
+}
+.table-dark td{
+    border: none!important;

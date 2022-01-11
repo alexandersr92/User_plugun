@@ -15,8 +15,9 @@ $table = new Table($colums);
 $users = $repository->getAll();
 
 get_header();
-?>
+?>  
     <div class="container">
+        <div id="singleUser"></div>
         <?php echo $table->render($users); ?>
     </div>
 <?php

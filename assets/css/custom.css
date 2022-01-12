@@ -57,3 +57,7 @@
 }
 .table-dark td{
     border: none!important;
+}
+table.light-theme{
+    background-color:#fff;
+}

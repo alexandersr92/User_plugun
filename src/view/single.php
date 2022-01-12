@@ -6,8 +6,12 @@ $singleUser = $repo->singleUser($id);
 
 $googleMaps = "https://www.google.com/maps?q=".$singleUser->address->geo->lat.",+".$singleUser->address->geo->lng;
 
+global $wpdb;
+$table = $wpdb->prefix . 'options';
+$theme = $wpdb->get_results("SELECT option_value from $table WHERE option_name = 'userPlugin_theme'")[0]->option_value;
+$tableTheme = ($theme == 'dark') ? 'dark-theme' : 'light-theme';
  ?>
- <div class="row single dark-theme">
+ <div class="row single <?=$tableTheme ?>">
      <div class="cols col-4">
         <p><span>ID:</span> <?= $singleUser->id ?></p>
         <p><span>Name:</span> <?= $singleUser->name ?></p>

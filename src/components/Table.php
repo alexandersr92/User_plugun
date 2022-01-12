@@ -8,9 +8,12 @@ class Table{
     }
 
     function render($data) {
-
+        global $wpdb;
+        $table = $wpdb->prefix . 'options';
+        $theme = $wpdb->get_results("SELECT option_value from $table WHERE option_name = 'userPlugin_theme'")[0]->option_value;
+        $tableTheme = ($theme == 'dark') ? 'table-dark' : 'light-theme';
         $table =
-            '<table class="table table-hover table-dark">
+            "<table class='table table-hover $tableTheme'>
                 <thead>
                     <tr>
                     @columns
@@ -19,7 +22,7 @@ class Table{
                 <tbody>
                     @rows
                 </tbody>
-            </table>';
+            </table>";
 
         $col = '';
         $rows = '';

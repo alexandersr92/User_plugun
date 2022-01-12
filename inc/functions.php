@@ -28,31 +28,38 @@ function users_menu()
 
 }
 
-add_action('init', function(){
-
-    add_rewrite_rule( 'users', 'index.php?users=table', 'top' );
-    
+add_action('init', function () {
+    global $wpdb;
+    $table = $wpdb->prefix . 'options';
+    $endpoint = $wpdb->get_results("SELECT option_value from $table WHERE option_name = 'userPlugin_endpoint'")[0]->option_value;
+    add_rewrite_rule($endpoint, "index.php?$endpoint=table", 'top');
 });
 
-add_filter( 'query_vars', function( $query_vars ) {
-    $query_vars[] = 'users';
+add_filter('query_vars', function ($query_vars) {
+    global $wpdb;
+    $table = $wpdb->prefix . 'options';
+    $endpoint = $wpdb->get_results("SELECT option_value from $table WHERE option_name = 'userPlugin_endpoint'")[0]->option_value;
+    $query_vars[] = $endpoint ;
     return $query_vars;
-} );
+});
 
 
-add_action( 'template_include', function( $template ) {
-
-    if ( get_query_var( 'users' ) == false || get_query_var( 'users' ) == '' ) {
+add_action('template_include', function ($template) {
+    global $wpdb;
+    $table = $wpdb->prefix . 'options';
+    $endpoint = $wpdb->get_results("SELECT option_value from $table WHERE option_name = 'userPlugin_endpoint'")[0]->option_value;
+    if (get_query_var($endpoint) == false || get_query_var($endpoint) == '') {
         return $template;
-    } 
-    return  substr( plugin_dir_path(__FILE__), 0, -4). '/public/index.php';
-} );
+    }
+    return  substr(plugin_dir_path(__FILE__), 0, -4) . '/public/index.php';
+});
 
 add_action('wp_head', 'myplugin_ajaxurl');
 
-function myplugin_ajaxurl() {
+function myplugin_ajaxurl()
+{
 
-   echo '<script type="text/javascript">
+    echo '<script type="text/javascript">
            var ajaxurl = "' . admin_url('admin-ajax.php') . '";
          </script>';
 }
@@ -72,13 +79,65 @@ function ajax_url()
 }
 add_action('wp_enqueue_scripts', 'ajax_url');
 
-add_action( 'wp_ajax__getSingleUser', 'getSingleUser' );
-add_action( 'wp_ajax_nopriv_getSingleUser', 'getSingleUser' );
 
-function getSingleUser() {
+add_action('wp_ajax_getSingleUser', 'getSingleUser');
+add_action('wp_ajax_nopriv_getSingleUser', 'getSingleUser');
+
+function getSingleUser()
+{
     $id = $_REQUEST['userID'];
     include_once plugin_dir_path(__DIR__) . "src/view/single.php";
 
     wp_die();
 }
 
+
+
+add_action('wp_ajax_setSettings', 'setSettings');
+
+function setSettings()
+{
+    global $wpdb;
+    $endpoint = $_REQUEST['endpoint'];
+    $cache = $_REQUEST['cache'];
+    $theme = $_REQUEST['theme'];
+
+
+    $table = $wpdb->prefix . 'options';
+
+    $wpdb->update(
+        $table,
+        array(
+            'option_name' => 'userPlugin_endpoint',
+            'option_value' => $endpoint,
+            'autoload' => 'no'
+        ),
+        array(
+            'option_name' => 'userPlugin_endpoint',
+        )
+
+    );
+    $wpdb->update(
+        $table,
+        array(
+            'option_name' => 'userPlugin_cache',
+            'option_value' => $cache,
+            'autoload' => 'no'
+        ),
+        array(
+            'option_name' => 'userPlugin_cache',
+        )
+    );
+    $wpdb->update(
+        $table,
+        array(
+            'option_name' => 'userPlugin_theme',
+            'option_value' => $theme,
+            'autoload' => 'no'
+        ),
+        array(
+            'option_name' => 'userPlugin_theme',
+        )
+    );
+
+}
